@@ -10,8 +10,8 @@ CONFIG += c++11
 
 SOURCES += \
     client.cpp \
-    main.cpp \
     chatapp.cpp \
+    main.cpp \
     server.cpp
 
 HEADERS += \

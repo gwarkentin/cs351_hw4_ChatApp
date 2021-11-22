@@ -1,4 +1,5 @@
 #include "chatapp.h"
+
 #include "ui_chatapp.h"
 
 ChatApp::ChatApp(QWidget *parent)
@@ -6,10 +7,6 @@ ChatApp::ChatApp(QWidget *parent)
     , ui(new Ui::ChatApp)
 {
     ui->setupUi(this);
-
-    // display this comps local ip
-    QString myIP = getMyIP();
-    ui->myIpLabel->setText(myIP);
 
     // make sure good data for port and ips
     QValidator *portvalidator = new QIntValidator(0,65353, this);
@@ -21,6 +18,7 @@ ChatApp::ChatApp(QWidget *parent)
     QValidator *ipvalidator = new QRegularExpressionValidator(rx, this);
     ui->yourIpLineEdit->setValidator(ipvalidator);
 
+    ui->interfaceCombo->addItems(getNetworkInterfaces());
 
     // send messages with click or enter
     connect(ui->pushButton, SIGNAL (clicked()), this, SLOT (textEntered()));
@@ -30,30 +28,27 @@ ChatApp::ChatApp(QWidget *parent)
 
     // signals to let client and server processes know to change settings
     connect(ui->yourIpLineEdit, &QLineEdit::textChanged, this, &ChatApp::changeOutIp);
+    connect(ui->interfaceCombo, &QComboBox::currentTextChanged, this, &ChatApp::changeInIp);
     connect(ui->inportLineEdit, &QLineEdit::textChanged, this, &ChatApp::changeInPort);
     connect(ui->outportLineEdit, &QLineEdit::textChanged, this, &ChatApp::changeOutPort);
 
 }
 
-QString ChatApp ::getMyIP()
+QStringList ChatApp::getNetworkInterfaces()
 {
-    QList<QHostAddress> list = QNetworkInterface::allAddresses();
-    QString ipaddress = "127.0.0.1";
+    QList<QHostAddress> nlist = QNetworkInterface::allAddresses();
+    QStringList slist;
 
-    //return first non-loopback ip
-    for(int nIter=0; nIter<list.count(); nIter++)
+    for (int i=0; i < nlist.count(); i++)
     {
-        if(!list[nIter].isLoopback())
+        if (nlist[i].protocol() == QAbstractSocket::IPv4Protocol )
         {
-            if (list[nIter].protocol() == QAbstractSocket::IPv4Protocol )
-            {
-                ipaddress = list[nIter].toString();
-                break;
-            }
+            slist.append(nlist[i].toString());
         }
     }
-    return ipaddress;
+    return slist;
 }
+
 
 ChatApp::~ChatApp()
 {
@@ -63,7 +58,6 @@ ChatApp::~ChatApp()
 // to easily test side by side
 void ChatApp::swapPorts()
 {
-
     QString inport = ui->inportLineEdit->text();
     QString outport = ui->outportLineEdit->text();
     ui->inportLineEdit->setText(outport);

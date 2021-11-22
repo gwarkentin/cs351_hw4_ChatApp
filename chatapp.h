@@ -28,6 +28,7 @@ signals:
     void changeInPort(const QString &text);
     void changeOutPort(const QString &text);
     void changeOutIp(const QString &text);
+    void changeInIp(const QString &text);
 
 private slots:
     void textEntered();
@@ -35,6 +36,7 @@ private slots:
 
 private:
     Ui::ChatApp *ui;
-    QString getMyIP();
+    QStringList getNetworkInterfaces();
+
 };
 #endif // CHATAPP_H

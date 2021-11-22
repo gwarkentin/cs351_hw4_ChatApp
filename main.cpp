@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
     w.connect(&w, &ChatApp::changeInPort, &udpServer, &Server::changePortSlot);
     w.connect(&w, &ChatApp::changeOutPort, &udpClient, &Client::changePortSlot);
     w.connect(&w, &ChatApp::changeOutIp, &udpClient, &Client::changeIpSlot);
+    w.connect(&w, &ChatApp::changeInIp, &udpServer, &Server::changeIpSlot);
 
     w.show();
     return a.exec();

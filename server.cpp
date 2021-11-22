@@ -1,29 +1,37 @@
 #include "server.h"
 
-Server::Server(QObject *parent, int port) : QObject(parent)
+Server::Server(QObject *parent, int port, QHostAddress ipaddr) : QObject(parent)
 {
+    ip = ipaddr;
+    inport = port;
     udpSocket = new QUdpSocket(this);
-    resetSocket(port);
+    resetSocket();
     connect(udpSocket, &QUdpSocket::readyRead,
             this, &Server::readPendingDatagrams);
 }
 
 void messageReceived(const QString &msg);
 
-void Server::resetSocket(int port)
+void Server::resetSocket()
 {
     if (!udpSocket->NotOpen) {
         udpSocket->close();
     }
-    inport = port;
 
-    qDebug() << "Reset inport to : " << inport;
-    udpSocket->bind(QHostAddress::LocalHost, port);
+    qDebug() << "Reset inport to " << ip.toString() << ":" << inport;
+    udpSocket->bind(ip, inport);
 }
 
 void Server::changePortSlot(const QString &text)
 {
-    resetSocket(text.toInt());
+    inport = text.toInt();
+    resetSocket();
+}
+
+void Server::changeIpSlot(const QString &text)
+{
+    ip = QHostAddress(text);
+    resetSocket();
 }
 
 void Server::readPendingDatagrams()
