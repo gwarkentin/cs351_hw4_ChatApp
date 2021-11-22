@@ -22,10 +22,7 @@ Chat Application
 		Can change ports
 		Easy to use side by side with port swap button
 		Can change outbount IP
-			I haven't gotten this to work yet.
-			I tried opening firewall but get this error on sends when I check wireshark
-				"destination unreachable port unreachable"
-	
+        Can change which IP to listen on
 */
 
 
