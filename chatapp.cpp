@@ -18,8 +18,6 @@ ChatApp::ChatApp(QWidget *parent)
     QValidator *ipvalidator = new QRegularExpressionValidator(rx, this);
     ui->yourIpLineEdit->setValidator(ipvalidator);
 
-    ui->interfaceCombo->addItems(getNetworkInterfaces());
-
     // send messages with click or enter
     connect(ui->pushButton, SIGNAL (clicked()), this, SLOT (textEntered()));
     connect(ui->lineEdit, SIGNAL (returnPressed()), this, SLOT (textEntered()));
@@ -28,10 +26,11 @@ ChatApp::ChatApp(QWidget *parent)
 
     // signals to let client and server processes know to change settings
     connect(ui->yourIpLineEdit, &QLineEdit::textChanged, this, &ChatApp::changeOutIp);
-    connect(ui->interfaceCombo, &QComboBox::currentTextChanged, this, &ChatApp::changeInIp);
     connect(ui->inportLineEdit, &QLineEdit::textChanged, this, &ChatApp::changeInPort);
     connect(ui->outportLineEdit, &QLineEdit::textChanged, this, &ChatApp::changeOutPort);
+    connect(ui->interfaceCombo, &QComboBox::currentTextChanged, this, &ChatApp::changeInIp);
 
+    ui->interfaceCombo->addItems(getNetworkInterfaces());
 }
 
 // call this after all the connections made so the gui is synchronized with the client/server
@@ -40,6 +39,8 @@ void ChatApp::initLineEdits()
     ui->yourIpLineEdit->setText("127.0.0.1");
     ui->outportLineEdit->setText("3514");
     ui->inportLineEdit->setText("3515");
+    ui->interfaceCombo->setCurrentIndex(0);
+    emit changeInIp(ui->interfaceCombo->currentText());
 }
 
 QStringList ChatApp::getNetworkInterfaces()
