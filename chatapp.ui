@@ -79,7 +79,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>127.0.0.1</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -112,7 +112,7 @@
          <string/>
         </property>
         <property name="text">
-         <string>3515</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -133,7 +133,7 @@
       <item>
        <widget class="QLineEdit" name="outportLineEdit">
         <property name="text">
-         <string>3514</string>
+         <string/>
         </property>
        </widget>
       </item>

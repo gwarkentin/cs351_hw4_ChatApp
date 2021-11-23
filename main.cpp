@@ -42,6 +42,12 @@ int main(int argc, char *argv[])
     w.connect(&w, &ChatApp::changeOutIp, &udpClient, &Client::changeIpSlot);
     w.connect(&w, &ChatApp::changeInIp, &udpServer, &Server::changeIpSlot);
 
+    //display error messages in chat box for failed connections
+    w.connect(&udpServer, &Server::connectionMsg, &w, &ChatApp::appendText);
+    w.connect(&udpClient, &Client::sentStatus, &w, &ChatApp::appendText);
+
+    w.initLineEdits();
+
     w.show();
     return a.exec();
 }

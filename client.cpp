@@ -28,6 +28,11 @@ void Client::sendMessage(const QString &text)
     const QNetworkDatagram qn = QNetworkDatagram(ba, ip, outport);
 
     qDebug() << "Snd" << ip.toString() << ":" << outport << "- " << text;
-    udpSocket->writeDatagram(qn);
+    int bytesSent = udpSocket->writeDatagram(qn);
+    if (bytesSent == -1)
+    {
+        emit sentStatus("Failed to send message '" + text + "' Error: " + udpSocket->errorString());
+    }
+
 }
 

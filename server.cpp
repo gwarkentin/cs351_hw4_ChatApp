@@ -14,12 +14,21 @@ void messageReceived(const QString &msg);
 
 void Server::resetSocket()
 {
+    bool connected = false;
     if (!udpSocket->NotOpen) {
         udpSocket->close();
     }
 
     qDebug() << "Reset inport to " << ip.toString() << ":" << inport;
-    udpSocket->bind(ip, inport);
+    connected = udpSocket->bind(ip, inport);
+    if (!connected)
+    {
+        emit connectionMsg("Connection to " + ip.toString() + ":" + QString::number(inport) + " failed. Try again or another port.");
+    }
+    else
+    {
+        emit connectionMsg("Listening on " + ip.toString() + ":" +  QString::number(inport));
+    }
 }
 
 void Server::changePortSlot(const QString &text)

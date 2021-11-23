@@ -34,6 +34,14 @@ ChatApp::ChatApp(QWidget *parent)
 
 }
 
+// call this after all the connections made so the gui is synchronized with the client/server
+void ChatApp::initLineEdits()
+{
+    ui->yourIpLineEdit->setText("127.0.0.1");
+    ui->outportLineEdit->setText("3514");
+    ui->inportLineEdit->setText("3515");
+}
+
 QStringList ChatApp::getNetworkInterfaces()
 {
     QList<QHostAddress> nlist = QNetworkInterface::allAddresses();

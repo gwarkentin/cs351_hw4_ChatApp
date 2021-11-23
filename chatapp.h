@@ -21,7 +21,8 @@ public:
     ChatApp(QWidget *parent = nullptr);
     ~ChatApp();
 
-void appendText(const QString &text);
+    void appendText(const QString &text);
+    void initLineEdits();
 
 signals:
     void sendMessage(const QString &text);

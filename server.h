@@ -14,6 +14,7 @@ public:
 
 signals:
     void messageReceived(const QString &msg);
+    void connectionMsg(const QString &msg);
 
 public slots:
     void resetSocket();
