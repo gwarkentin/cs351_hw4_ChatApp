@@ -6,8 +6,8 @@ Gabriel Warkentin
 
 
 #### Required to interface with an app on local machine:
- - Sending messages to port 3515
- - Receiving messages on port 3514
+ - Sending messages to localhost:3515
+ - Receiving messages to localhost:3514
  - Messages are UDP packets containing c_str
  - Prints both sent and received messages
 
