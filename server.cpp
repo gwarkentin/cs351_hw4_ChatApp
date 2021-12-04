@@ -10,8 +10,6 @@ Server::Server(QObject *parent, int port, QHostAddress ipaddr) : QObject(parent)
             this, &Server::readPendingDatagrams);
 }
 
-void messageReceived(const QString &msg);
-
 void Server::resetSocket()
 {
     bool connected = false;
